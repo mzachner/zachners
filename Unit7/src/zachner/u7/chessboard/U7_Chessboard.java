@@ -11,14 +11,7 @@ public class U7_Chessboard {
 				board[x][y] = '.';
 			}
 		}
-		board[0][0] = 'r';
-		board[1][0] = 'n';
-		board[2][0] = 'b';
-		board[3][0] = 'q';
-		board[4][0] = 'k';
-		board[5][0] = 'b';
-		board[6][0] = 'n';
-		board[7][0] = 'r';
+		board[0] = new char[] { 'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r' };
 		board[0][1] = 'p';
 		board[1][1] = 'p';
 		board[2][1] = 'p';
