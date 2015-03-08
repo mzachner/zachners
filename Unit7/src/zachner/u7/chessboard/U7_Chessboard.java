@@ -56,7 +56,7 @@ public class U7_Chessboard {
 
 		Evaluate_Board evaluate = new Evaluate_Board();
 
-		System.out.print("Score: " + evaluate.board(board));
+		System.out.print("Score: " + evaluate.evaluate(board));
 
 	}
 

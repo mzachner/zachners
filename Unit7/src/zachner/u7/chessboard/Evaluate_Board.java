@@ -2,7 +2,7 @@ package zachner.u7.chessboard;
 
 public class Evaluate_Board {
 
-	public int board(char board[][]) {
+	public int evaluate(char board[][]) {
 
 		int whiteValue = 0;
 		int blackValue = 0;
