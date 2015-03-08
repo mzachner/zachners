@@ -43,9 +43,9 @@ public class U7_Chessboard {
 		board[5][6] = 'P';
 		board[6][6] = 'P';
 		board[7][6] = 'P';
-		
-		int x;
-		int y;
+
+		int x = 0;
+		int y = 0;
 
 		for (y = 0; y <= 7; y++) {
 			for (x = 0; x <= 7; x++) {
