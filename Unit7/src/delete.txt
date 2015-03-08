@@ -1,2 +1,0 @@
-Ich weis nicht warum, aber es funktioniert mit github nicht, dass ein Ordner leer sein kann. 
-Daher kannst das File löschen, sobald du hier ein anderes File erstellt hast.
