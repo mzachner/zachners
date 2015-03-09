@@ -1,11 +1,17 @@
 package zachner.u7.chessboard.test;
 
-import zachner.u7.chessboard.Evaluate_Board;
+import zachner.u7.chessboard.BoardEvaluatorUtil;
 
 public class U7_Chessboard {
 
 	public static void main(String[] args) {
 
+		//Sollte das Programm nicht eigentlich das Spielfeld vom Terminal einlesen.
+		//Dafür könntest du folgenden Code verwenden:
+		//Console console = System.console();
+		//console.readLine();
+		
+		
 		char[][] board = new char[8][8];
 
 		for (int y = 0; y <= 7; y++) {
@@ -56,9 +62,7 @@ public class U7_Chessboard {
 			System.out.println("");
 		}
 
-		Evaluate_Board evaluate = new Evaluate_Board();
-
-		System.out.print("Score: " + evaluate.evaluate(board));
+		System.out.print("Score: " + BoardEvaluatorUtil.evaluate(board));
 
 	}
 
