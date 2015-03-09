@@ -1,4 +1,6 @@
-package zachner.u7.chessboard;
+package zachner.u7.chessboard.test;
+
+import zachner.u7.chessboard.Evaluate_Board;
 
 public class U7_Chessboard {
 
