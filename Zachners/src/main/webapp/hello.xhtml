@@ -14,5 +14,9 @@
 		<h:inputText value="#{helloBean.name}"></h:inputText>
 		<h:commandButton value="Welcome Me" action="welcome?faces-redirect=true"></h:commandButton>
 	</h:form>
+	<h:form id="form" enctype="multipart/form-data">
+  		<h:inputFile id="file" value="#{helloBean.file}"/>
+  		<h:commandButton value="Upload" action="#{helloBean.upload}"/>
+	</h:form>
 </h:body>
 </html>
