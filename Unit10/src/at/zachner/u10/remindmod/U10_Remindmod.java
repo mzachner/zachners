@@ -1,12 +1,46 @@
 package at.zachner.u10.remindmod;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class U10_Remindmod {
 
+	public static boolean proveStructureNeu(String input) {
+		//Kurze Erklärung:
+		//"\\d" steht für eine Ganzzahl also 0 bis 9
+		//"\\d?" steht für eine Ganzzahl oder kein Zeichen
+		//"/" steht für "/"
+		//" " steht für " "
+		//":" steht für ":"
+		//"." steht für irgendein Zeichen
+		//".*" beliebig viele Zeichen (vom Typ irgendein Zeichen). Also 0 Zeichen bis n Zeichen.
+		//Statt dem * kann man auch ein + verwenden. Dann bedeutet es 1 bis n Zeichen
+		//Ein Fragezeichen bedeutet 0 bis 1 Zeichen.
+		
+		//Pattern.matches versucht diese Beschreibung im input zu finden. Wenn es eine Übereinstimmung findet, dann
+		//wird true returniert ansonsten false. 
+		//Diesen komischen String bezeichnet man als Regular Expression (RegEx) und ist als eine abstrakte Beschreibung
+		//eines Strings zu verstehen.
+		if (Pattern.matches("\\d\\d?/\\d\\d? \\d\\d?:\\d\\d? .*", input)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 	public static boolean proveStructure(String input) {
+		
+		//Ist schon sehr aufwendig das ganze. Kann man mit RegularExpressions sehr elegant lösen.
+		//Aber as konntest du nicht wissen. Alternative Lösung siehe proveStructureNeu.
+		
 
-		String[] inputSplit = input.split("");
+		String[] inputSplit = input.split("(?!^)"); //Split funktioniert nicht so wie ich es erwartet habe.
+		//Daher statt "" "(?!^)" verwenden :-) Ohne der Änderung hast du immer im ersten Element einen leeren String drinnen
+		//und erst dann kommt das erste Zeichen im zweiten Element.
+		//Wie hat das eigentlich bei dir funktioniert wenn du ein zweistelliges Monat eingegeben hast?
+		
 		boolean prove;
 
 		int i = 0;
@@ -21,11 +55,11 @@ public class U10_Remindmod {
 				if (i < inputSplit.length) {
 					if (numbers.contains(inputSplit[i])) {
 						prove = true;
-					} else if (inputSplit[i].equals("/")) {
+					} else if (inputSplit[i].equals("/")) { //Wenn ich 1//12... eingeb, dann stimmts auch?
 						if (i == 1 || i == 2) {
 							prove = true;
 						}
-					} else if (inputSplit[i].equals(" ")) {
+					} else if (inputSplit[i].equals(" ")) { //Ist ein wenig verschoben wegen dem ersten Element. Siehe Kommentar oben.
 						if (inputSplit[i - 2].equals("/")
 								|| inputSplit[i - 3].equals("/")) {
 							prove = true;
@@ -94,7 +128,7 @@ public class U10_Remindmod {
 
 			String input = scanner.nextLine();
 
-			if (proveStructure(input) == true) {
+			if (proveStructureNeu(input) == true) {
 				String[] inputSplit = input.split("/|\\ |\\:|\\ ");
 
 				int month = Integer.parseInt(inputSplit[0]);
