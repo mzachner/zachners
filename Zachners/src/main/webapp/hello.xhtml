@@ -12,11 +12,13 @@
 	<h3>JSF 2.2 Hello World Example - hello.xhtml</h3>
 	<h:form>
 		<h:inputText value="#{helloBean.name}"></h:inputText>
+		
 		<h:commandButton value="Welcome Me" action="welcome?faces-redirect=true"></h:commandButton>
-	</h:form>
-	<h:form id="form" enctype="multipart/form-data">
-  		<h:inputFile id="file" value="#{helloBean.file}"/>
-  		<h:commandButton value="Upload" action="#{helloBean.upload}"/>
+		
+		<br />
+		<br />
+		
+		<h:commandButton value="Lebenlauf Roman" action="lebenslaufRoman?faces-redirect=true" />
 	</h:form>
 </h:body>
 </html>
