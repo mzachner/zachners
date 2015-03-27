@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>Tic Tac Toe</title>
+	
+	<meta http-equiv="refresh" content="1" />
+</h:head>
+<h:body>
+	<div><h:outputText value="#{ticTacToe.sessionId}" /></div>
+	<h3>Tic Tac Toe</h3>
+	
+	<h:form>
+	
+		<table>
+			<tr>
+				<td>
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="X" action="#{ticTacToe.doAction('0', '0')}" />
+				</td>
+				<td>
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="X" action="#{ticTacToe.doAction('0', '1')}" />
+				</td>
+				<td>
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="X" action="#{ticTacToe.doAction('0', '2')}" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="X" action="#{ticTacToe.doAction('1', '0')}" />
+				</td>
+				<td>
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="" action="#{ticTacToe.doAction('1', '1')}" />
+				</td>
+				<td>
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="" action="#{ticTacToe.doAction('1', '2')}" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="O" action="#{ticTacToe.doAction('2', '0')}" />
+				</td>
+				<td>
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="O" action="#{ticTacToe.doAction('2', '1')}" />
+				</td>
+				<td>
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="O" action="#{ticTacToe.doAction('2', '2')}" />
+				</td>
+			</tr>
+		</table>
+	
+		<br />
+		<h:commandButton value="Refresh" action="#{ticTacToe.doAction('refresh')}" />
+		<br />
+		<h:commandButton value="Abbrechen" action="#{ticTacToe.doAction('abbruch')}" />
+		
+	</h:form>
+</h:body>
+</html>
