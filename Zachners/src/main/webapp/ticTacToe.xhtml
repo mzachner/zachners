@@ -19,35 +19,35 @@
 		<table>
 			<tr>
 				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="X" action="#{ticTacToe.doAction('0', '0')}" />
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('0', '0')}" action="#{ticTacToe.doAction('0', '0')}" />
 				</td>
 				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="X" action="#{ticTacToe.doAction('0', '1')}" />
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('0', '1')}" action="#{ticTacToe.doAction('0', '1')}" />
 				</td>
 				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="X" action="#{ticTacToe.doAction('0', '2')}" />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="X" action="#{ticTacToe.doAction('1', '0')}" />
-				</td>
-				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="" action="#{ticTacToe.doAction('1', '1')}" />
-				</td>
-				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="" action="#{ticTacToe.doAction('1', '2')}" />
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('0', '2')}" action="#{ticTacToe.doAction('0', '2')}" />
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="O" action="#{ticTacToe.doAction('2', '0')}" />
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('1', '0')}" action="#{ticTacToe.doAction('1', '0')}" />
 				</td>
 				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="O" action="#{ticTacToe.doAction('2', '1')}" />
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('1', '1')}" action="#{ticTacToe.doAction('1', '1')}" />
 				</td>
 				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="O" action="#{ticTacToe.doAction('2', '2')}" />
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('1', '2')}" action="#{ticTacToe.doAction('1', '2')}" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('2', '0')}" action="#{ticTacToe.doAction('2', '0')}" />
+				</td>
+				<td>
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('2', '1')}" action="#{ticTacToe.doAction('2', '1')}" />
+				</td>
+				<td>
+					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('2', '2')}" action="#{ticTacToe.doAction('2', '2')}" />
 				</td>
 			</tr>
 		</table>

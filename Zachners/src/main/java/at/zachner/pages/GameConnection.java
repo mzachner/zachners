@@ -8,20 +8,38 @@ public class GameConnection implements Serializable {
 	
 	private static GameConnection gC;
 	
-	private TicTacToe playerA;
-	private TicTacToe playerB;
+	private TicTacToe playerX;
+	private TicTacToe playerO;
 	private TicTacToe aktuellerSpieler;
+	private String[][] spielfeld = {{"","",""},{"","",""},{"","",""}};
 
 	public static synchronized GameConnection getConnection(TicTacToe player) {
 		if (gC == null) {
 			gC = new GameConnection();
-			gC.playerA = player;
+			gC.playerX = player;
 			gC.aktuellerSpieler = player;
+			return gC;
 		}
-		else {
-			gC.playerB = player;
+		gC.playerO = player;
+		GameConnection gCKomplett = gC;
+		gC = null;
+		return gCKomplett;
+	}
+	
+	public synchronized void setFeld(TicTacToe player, int x, int y) {
+		if (isMyTurn(player)) {
+			if (player == playerX) {
+				spielfeld[x][y] = "X";
+			}
+			else {
+				spielfeld[x][y] = "O";
+			}
 		}
-		return gC;
+	}
+	
+	public synchronized String[][] getSpielfeld() {
+		return spielfeld;
+		
 	}
 
 	public synchronized boolean isMyTurn(TicTacToe player) {
@@ -34,11 +52,11 @@ public class GameConnection implements Serializable {
 	}
 
 	public synchronized void setToOtherSpieler(TicTacToe player) {
-		if (player == aktuellerSpieler && player == playerA) {
-			this.aktuellerSpieler = playerB;
+		if (player == aktuellerSpieler && player == playerX) {
+			this.aktuellerSpieler = playerO;
 		}
-		else if (player == aktuellerSpieler && player == playerB) {
-			this.aktuellerSpieler = playerA;
+		else if (player == aktuellerSpieler && player == playerO) {
+			this.aktuellerSpieler = playerX;
 		}
 	}
 	

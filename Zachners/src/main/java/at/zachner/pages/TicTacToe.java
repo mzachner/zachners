@@ -22,6 +22,7 @@ public class TicTacToe implements Serializable {
 	}
 	
 	public String doAction(String x, String y) {
+		gC.setFeld(this, Integer.valueOf(x), Integer.valueOf(y));
 		gC.setToOtherSpieler(this);
 		return ""; 
 	}
@@ -39,4 +40,9 @@ public class TicTacToe implements Serializable {
 	public boolean isMyTurn() {
 		return gC.isMyTurn(this);
 	}
+	
+	public String getFeldValue(String x, String y) {
+		return gC.getSpielfeld()[Integer.valueOf(x)][Integer.valueOf(y)];
+	}
+	
 }
