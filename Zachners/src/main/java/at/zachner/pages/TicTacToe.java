@@ -29,7 +29,7 @@ public class TicTacToe implements Serializable {
 	
 	public String doAction(String action) {
 		if (action.equals("abbruch")) {
-			return "hello?faces-redirect=true";
+			return "hauptmenu?faces-redirect=true";
 		}
 		if (action.equals("refresh")) {
 			return "";

@@ -1,4 +1,4 @@
-http://localhost:8080/Zachners/hello.xhtml
+http://localhost:8080/Zachners/hauptmenu.xhtml
 
 Install jdk und verwende die jre vom jdk.
 Dann run as maven install muss mindestens einmal ausgeführt werden und jedesmal wenn sich die pom.xml ändert.
