@@ -7,42 +7,86 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
+import at.zachner.service.tictactoe.GameConnection;
+
 @ManagedBean
 @SessionScoped
 public class TicTacToe implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	private GameConnection gC = GameConnection.getConnection(this);
-	
+
+	private GameConnection gC;
+
+	private GameConnection getGameConnection() {
+		if (gC == null) {
+			gC = GameConnection.getConnection(this);
+		}
+		return gC;
+	}
+
 	public String getSessionId() {
 		FacesContext fCtx = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
+		HttpSession session = (HttpSession) fCtx.getExternalContext()
+				.getSession(false);
 		return session.getId();
 	}
-	
+
 	public String doAction(String x, String y) {
-		gC.setFeld(this, Integer.valueOf(x), Integer.valueOf(y));
-		gC.setToOtherSpieler(this);
-		return ""; 
+		getGameConnection().setFeld(this, Integer.valueOf(x),
+				Integer.valueOf(y));
+		// gC.setToOtherSpieler(this);
+		return "";
 	}
-	
+
 	public String doAction(String action) {
 		if (action.equals("abbruch")) {
+			gC = null;
 			return "hauptmenu?faces-redirect=true";
 		}
 		if (action.equals("refresh")) {
 			return "";
 		}
-		return ""; 
+		return "";
 	}
-	
+
 	public boolean isMyTurn() {
-		return gC.isMyTurn(this);
+		return getGameConnection().isMyTurn(this);
 	}
-	
+
+	public boolean isSpielBeendet() {
+		return getGameConnection().isSpielBeendet();
+	}
+
+	public boolean isWinner() {
+		return getGameConnection().isWinner(this);
+	}
+
+	public boolean isLooser() {
+		return getGameConnection().isLooser(this);
+	}
+
+	public boolean isUnentschieden() {
+		return getGameConnection().isUnentschieden();
+	}
+
+	public boolean isConnectionEstablished() {
+		return getGameConnection().isConnectionEstablished();
+	}
+
 	public String getFeldValue(String x, String y) {
-		return gC.getSpielfeld()[Integer.valueOf(x)][Integer.valueOf(y)];
+		GameConnection.Value v = getGameConnection().getSpielfeld()[Integer
+				.valueOf(x)][Integer.valueOf(y)];
+		return v == null ? "" : v.name();
 	}
 	
+	public boolean isDisabled(String x, String y) {
+		return !isMyTurn()
+				|| getGameConnection().getSpielfeld()[Integer.valueOf(x)][Integer
+						.valueOf(y)] != null;
+	}
+	
+	public boolean isWinnerButton(String x, String y) {
+		return getGameConnection().isWinnerKoordinate(x, y);
+	}
+
 }

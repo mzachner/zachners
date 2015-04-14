@@ -7,7 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import at.zachner.data.lebenslauf.Lebenslauf;
-import at.zachner.serice.PersonenDao;
+import at.zachner.service.PersonenDao;
 
 @ManagedBean
 @SessionScoped

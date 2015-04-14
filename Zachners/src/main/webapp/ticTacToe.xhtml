@@ -6,71 +6,147 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-	
 	<title>Tic Tac Toe</title>
 	<h:panelGroup rendered="false">
 		<meta http-equiv="refresh" content="1" />
 	</h:panelGroup>
+	<style type="text/css">
+		.infoMessage {
+			font-family: arial;
+			font-size: 0.8em;
+			color: green;
+		}
+		
+		.gameButton {
+			padding: 0;
+			margin: 0;
+			width: 50px;
+			height: 50px;
+			background-color: red;
+			border: none;
+		}
+		
+		.gameTable {
+			border: medium solid black;
+			border-collapse: collapse;
+		}
+		
+		.gameTable tr {
+			border: medium solid black ;
+		}
+		
+		.gameTable td {
+			padding: 0;
+			margin: 0;
+			border: medium solid black ;
+		}
+		
+	</style>
 </h:head>
 <h:body>
-	<div><h:outputText value="#{ticTacToe.sessionId}" /></div>
+	<div>
+		<h:outputText value="#{ticTacToe.sessionId}" />
+	</div>
 	<h3>Tic Tac Toe</h3>
-	
+
+	<h:outputText value="Warte auf zweiten Spieler..."
+		rendered="#{!ticTacToe.connectionEstablished}"
+		styleClass="infoMessage" />
+	<h:outputText value="Sie haben gewonnen" rendered="#{ticTacToe.winner}"
+		styleClass="infoMessage" />
+	<h:outputText value="Sie haben verloren" rendered="#{ticTacToe.looser}"
+		styleClass="infoMessage" />
+	<h:outputText value="Unentschieden"
+		rendered="#{ticTacToe.unentschieden}" styleClass="infoMessage" />
+	<br />
+	<br />
+
 	<h:form>
-	
-		<table>
+
+		<table class="gameTable">
 			<tr>
-				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('0', '0')}" action="#{ticTacToe.doAction('0', '0')}" />
-				</td>
-				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('0', '1')}" action="#{ticTacToe.doAction('0', '1')}" />
-				</td>
-				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('0', '2')}" action="#{ticTacToe.doAction('0', '2')}" />
-				</td>
+				<td><h:commandButton
+						disabled="#{ticTacToe.isDisabled('0', '0')}"
+						value="#{ticTacToe.getFeldValue('0', '0')}"
+						action="#{ticTacToe.doAction('0', '0')}"
+						styleClass="gameButton #{ticTacToe.isWinnerButton('0', '0')}" /></td>
+				<td><h:commandButton
+						disabled="#{ticTacToe.isDisabled('0', '1')}"
+						value="#{ticTacToe.getFeldValue('0', '1')}"
+						action="#{ticTacToe.doAction('0', '1')}" 
+						styleClass="gameButton #{ticTacToe.isWinnerButton('0', '1')}" /></td>
+				<td><h:commandButton
+						disabled="#{ticTacToe.isDisabled('0', '2')}"
+						value="#{ticTacToe.getFeldValue('0', '2')}"
+						action="#{ticTacToe.doAction('0', '2')}"
+						styleClass="gameButton #{ticTacToe.isWinnerButton('0', '2')}" /></td>
 			</tr>
 			<tr>
-				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('1', '0')}" action="#{ticTacToe.doAction('1', '0')}" />
-				</td>
-				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('1', '1')}" action="#{ticTacToe.doAction('1', '1')}" />
-				</td>
-				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('1', '2')}" action="#{ticTacToe.doAction('1', '2')}" />
-				</td>
+				<td><h:commandButton
+						disabled="#{ticTacToe.isDisabled('1', '0')}"
+						value="#{ticTacToe.getFeldValue('1', '0')}"
+						action="#{ticTacToe.doAction('1', '0')}"
+						styleClass="gameButton #{ticTacToe.isWinnerButton('1', '0')}" /></td>
+				<td><h:commandButton
+						disabled="#{ticTacToe.isDisabled('1', '1')}"
+						value="#{ticTacToe.getFeldValue('1', '1')}"
+						action="#{ticTacToe.doAction('1', '1')}"
+						styleClass="gameButton #{ticTacToe.isWinnerButton('1', '1')}" /></td>
+				<td><h:commandButton
+						disabled="#{ticTacToe.isDisabled('1', '2')}"
+						value="#{ticTacToe.getFeldValue('1', '2')}"
+						action="#{ticTacToe.doAction('1', '2')}"
+						styleClass="gameButton #{ticTacToe.isWinnerButton('1', '2')}" /></td>
 			</tr>
 			<tr>
-				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('2', '0')}" action="#{ticTacToe.doAction('2', '0')}" />
-				</td>
-				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('2', '1')}" action="#{ticTacToe.doAction('2', '1')}" />
-				</td>
-				<td>
-					<h:commandButton disabled="#{!ticTacToe.myTurn}" value="#{ticTacToe.getFeldValue('2', '2')}" action="#{ticTacToe.doAction('2', '2')}" />
-				</td>
+				<td><h:commandButton
+						disabled="#{ticTacToe.isDisabled('2', '0')}"
+						value="#{ticTacToe.getFeldValue('2', '0')}"
+						action="#{ticTacToe.doAction('2', '0')}"
+						styleClass="gameButton #{ticTacToe.isWinnerButton('2', '0')}" /></td>
+				<td><h:commandButton
+						disabled="#{ticTacToe.isDisabled('2', '1')}"
+						value="#{ticTacToe.getFeldValue('2', '1')}"
+						action="#{ticTacToe.doAction('2', '1')}"
+						styleClass="gameButton #{ticTacToe.isWinnerButton('2', '1')}" /></td>
+				<td><h:commandButton
+						disabled="#{ticTacToe.isDisabled('2', '2')}"
+						value="#{ticTacToe.getFeldValue('2', '2')}"
+						action="#{ticTacToe.doAction('2', '2')}"
+						styleClass="gameButton #{ticTacToe.isWinnerButton('2', '2')}" /></td>
 			</tr>
 		</table>
-	
+
 		<br />
-		<h:commandButton value="Refresh" action="#{ticTacToe.doAction('refresh')}" />
+		<h:commandButton value="Refresh"
+			action="#{ticTacToe.doAction('refresh')}" />
 		<br />
-		<h:commandButton value="Abbrechen" action="#{ticTacToe.doAction('abbruch')}" />
-		
-		<h:panelGroup rendered="#{!ticTacToe.myTurn}">
-		
-		<script type="text/javascript">
-		    <!--
-		    setTimeout(function(){
-		        location = 'ticTacToe.xhtml'
-		      },1000)
-		    //-->
-	    </script>
-    	</h:panelGroup>
+		<h:commandButton value="Abbrechen"
+			action="#{ticTacToe.doAction('abbruch')}" />
+
+		<!-- NOT MY TURN - Refresh -->
+		<h:panelGroup
+			rendered="#{!ticTacToe.spielBeendet and !ticTacToe.myTurn}">
+			<script type="text/javascript">
+			<!--
+				setTimeout(function() {
+					location = 'ticTacToe.xhtml'
+				}, 1000)
+			//-->
+			</script>
+		</h:panelGroup>
+		<!-- MY TURN - Send alive -->
+		<h:panelGroup
+			rendered="#{!ticTacToe.spielBeendet and ticTacToe.myTurn}">
+			<script type="text/javascript">
+			<!--
+				setTimeout(function() {
+					location = 'ticTacToe.xhtml'
+				}, 10000)
+			//-->
+			</script>
+		</h:panelGroup>
 	</h:form>
-	
-	
+
 </h:body>
 </html>
