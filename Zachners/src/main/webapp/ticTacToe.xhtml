@@ -38,7 +38,10 @@
 		.gameTable td {
 			padding: 0;
 			margin: 0;
-			border: medium solid black ;
+			border: medium solid black;
+			vertical-align: middle;
+			text-align: center;
+			
 		}
 		
 	</style>
@@ -59,17 +62,29 @@
 	<h:outputText value="Unentschieden"
 		rendered="#{ticTacToe.unentschieden}" styleClass="infoMessage" />
 	<br />
+	<svg width="46" height="46">
+		<circle id="circle1" cx="25" cy="25" r="20" style="fill:rgb(255,255,255);stroke:rgb(255,0,0);stroke-width:3" />
+	</svg>
+	<br />
 	<br />
 
 	<h:form>
 
 		<table class="gameTable">
 			<tr>
-				<td><h:commandButton
+				<td>
+				<svg width="46" height="46">
+					<line id="line1" x1="0" y1="0" x2="46" y2="46" 
+					style="stroke:rgb(0,200,0);stroke-width:3" />
+					<line id="line2" x1="0" y1="46" x2="46" y2="0" 
+					style="stroke:rgb(0,200,0);stroke-width:3" />
+					X
+				</svg>
+	<h:commandButton
 						disabled="#{ticTacToe.isDisabled('0', '0')}"
 						value="#{ticTacToe.getFeldValue('0', '0')}"
 						action="#{ticTacToe.doAction('0', '0')}"
-						styleClass="gameButton #{ticTacToe.isWinnerButton('0', '0')}" /></td>
+						styleClass="gameButton #{ticTacToe.isWinnerButton('0', '0')}" rendered="false" /></td>
 				<td><h:commandButton
 						disabled="#{ticTacToe.isDisabled('0', '1')}"
 						value="#{ticTacToe.getFeldValue('0', '1')}"
