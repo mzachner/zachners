@@ -79,10 +79,10 @@ public class TicTacToe implements Serializable {
 		return v == null ? "" : v.name();
 	}
 	
-	public boolean isDisabled(String x, String y) {
-		return !isMyTurn()
-				|| getGameConnection().getSpielfeld()[Integer.valueOf(x)][Integer
-						.valueOf(y)] != null;
+	public boolean isNotDisabled(String x, String y) {
+		return isMyTurn() && !isSpielBeendet()
+				&& getGameConnection().getSpielfeld()[Integer.valueOf(x)][Integer
+						.valueOf(y)] == null;
 	}
 	
 	public boolean isWinnerButton(String x, String y) {

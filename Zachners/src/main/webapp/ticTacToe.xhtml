@@ -3,7 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
 	<title>Tic Tac Toe</title>
@@ -11,40 +12,51 @@
 		<meta http-equiv="refresh" content="1" />
 	</h:panelGroup>
 	<style type="text/css">
-		.infoMessage {
-			font-family: arial;
-			font-size: 0.8em;
-			color: green;
-		}
-		
-		.gameButton {
-			padding: 0;
-			margin: 0;
-			width: 50px;
-			height: 50px;
-			background-color: red;
-			border: none;
-		}
-		
-		.gameTable {
-			border: medium solid black;
-			border-collapse: collapse;
-		}
-		
-		.gameTable tr {
-			border: medium solid black ;
-		}
-		
-		.gameTable td {
-			padding: 0;
-			margin: 0;
-			border: medium solid black;
-			vertical-align: middle;
-			text-align: center;
-			
-		}
-		
-	</style>
+.infoMessage {
+	font-family: arial;
+	font-size: 0.8em;
+	color: green;
+}
+
+.gameButton {
+	padding: 0;
+	margin: 0;
+	width: 50px;
+	height: 50px;
+	background-color: white;
+	border: none;
+}
+
+.gameTable {
+	border-collapse: collapse;
+}
+
+.gameTable td {
+	padding: 0;
+	margin: 0;
+	border: medium solid black;
+	vertical-align: middle;
+	text-align: center;
+	height: 50px;
+	width: 50px;
+}
+
+.gameTable td.left {
+	border-left: none;
+}
+
+.gameTable td.top {
+	border-top: none;
+}
+
+.gameTable td.bottom {
+	border-bottom: none;
+}
+
+.gameTable td.right {
+	border-right: none;
+}
+</style>
 </h:head>
 <h:body>
 	<div>
@@ -55,6 +67,9 @@
 	<h:outputText value="Warte auf zweiten Spieler..."
 		rendered="#{!ticTacToe.connectionEstablished}"
 		styleClass="infoMessage" />
+	<h:outputText value="Ihr Zug bitte" 
+		rendered="#{ticTacToe.connectionEstablished and !ticTacToe.spielBeendet and ticTacToe.myTurn}"
+		styleClass="infoMessage" />
 	<h:outputText value="Sie haben gewonnen" rendered="#{ticTacToe.winner}"
 		styleClass="infoMessage" />
 	<h:outputText value="Sie haben verloren" rendered="#{ticTacToe.looser}"
@@ -62,73 +77,125 @@
 	<h:outputText value="Unentschieden"
 		rendered="#{ticTacToe.unentschieden}" styleClass="infoMessage" />
 	<br />
-	<svg width="46" height="46">
-		<circle id="circle1" cx="25" cy="25" r="20" style="fill:rgb(255,255,255);stroke:rgb(255,0,0);stroke-width:3" />
-	</svg>
-	<br />
 	<br />
 
 	<h:form>
 
 		<table class="gameTable">
 			<tr>
-				<td>
-				<svg width="46" height="46">
-					<line id="line1" x1="0" y1="0" x2="46" y2="46" 
-					style="stroke:rgb(0,200,0);stroke-width:3" />
-					<line id="line2" x1="0" y1="46" x2="46" y2="0" 
-					style="stroke:rgb(0,200,0);stroke-width:3" />
-					X
-				</svg>
-	<h:commandButton
-						disabled="#{ticTacToe.isDisabled('0', '0')}"
+				<td class="left top">
+					<h:commandButton
 						value="#{ticTacToe.getFeldValue('0', '0')}"
 						action="#{ticTacToe.doAction('0', '0')}"
-						styleClass="gameButton #{ticTacToe.isWinnerButton('0', '0')}" rendered="false" /></td>
-				<td><h:commandButton
-						disabled="#{ticTacToe.isDisabled('0', '1')}"
+						styleClass="gameButton #{ticTacToe.isWinnerButton('0', '0')}"
+						rendered="#{ticTacToe.isNotDisabled('0', '0')}" />
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('0', '0') == 'X'}">
+							<ui:include src="x.svg" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('0', '0') == 'O'}">
+							<ui:include src="o.svg" />
+						</h:panelGroup>
+					</td>
+				<td class="top"> <h:commandButton
 						value="#{ticTacToe.getFeldValue('0', '1')}"
-						action="#{ticTacToe.doAction('0', '1')}" 
-						styleClass="gameButton #{ticTacToe.isWinnerButton('0', '1')}" /></td>
-				<td><h:commandButton
-						disabled="#{ticTacToe.isDisabled('0', '2')}"
+						action="#{ticTacToe.doAction('0', '1')}"
+						styleClass="gameButton #{ticTacToe.isWinnerButton('0', '1')}" 
+						rendered="#{ticTacToe.isNotDisabled('0', '1')}" />
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('0', '1') == 'X'}">
+							<ui:include src="x.svg" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('0', '1') == 'O'}">
+							<ui:include src="o.svg" />
+						</h:panelGroup>
+						</td>
+				<td class="top right"><h:commandButton
 						value="#{ticTacToe.getFeldValue('0', '2')}"
 						action="#{ticTacToe.doAction('0', '2')}"
-						styleClass="gameButton #{ticTacToe.isWinnerButton('0', '2')}" /></td>
+						styleClass="gameButton #{ticTacToe.isWinnerButton('0', '2')}" 
+						rendered="#{ticTacToe.isNotDisabled('0', '2')}" />
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('0', '2') == 'X'}">
+							<ui:include src="x.svg" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('0', '2') == 'O'}">
+							<ui:include src="o.svg" />
+						</h:panelGroup>
+						</td>
 			</tr>
 			<tr>
-				<td><h:commandButton
-						disabled="#{ticTacToe.isDisabled('1', '0')}"
+				<td class="left"><h:commandButton
 						value="#{ticTacToe.getFeldValue('1', '0')}"
 						action="#{ticTacToe.doAction('1', '0')}"
-						styleClass="gameButton #{ticTacToe.isWinnerButton('1', '0')}" /></td>
+						styleClass="gameButton #{ticTacToe.isWinnerButton('1', '0')}" 
+						rendered="#{ticTacToe.isNotDisabled('1', '0')}" />
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('1', '0') == 'X'}">
+							<ui:include src="x.svg" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('1', '0') == 'O'}">
+							<ui:include src="o.svg" />
+						</h:panelGroup>
+						</td>
 				<td><h:commandButton
-						disabled="#{ticTacToe.isDisabled('1', '1')}"
 						value="#{ticTacToe.getFeldValue('1', '1')}"
 						action="#{ticTacToe.doAction('1', '1')}"
-						styleClass="gameButton #{ticTacToe.isWinnerButton('1', '1')}" /></td>
-				<td><h:commandButton
-						disabled="#{ticTacToe.isDisabled('1', '2')}"
+						styleClass="gameButton #{ticTacToe.isWinnerButton('1', '1')}" 
+						rendered="#{ticTacToe.isNotDisabled('1', '1')}" />
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('1', '1') == 'X'}">
+							<ui:include src="x.svg" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('1', '1') == 'O'}">
+							<ui:include src="o.svg" />
+						</h:panelGroup>
+						</td>
+				<td class="right"><h:commandButton
 						value="#{ticTacToe.getFeldValue('1', '2')}"
 						action="#{ticTacToe.doAction('1', '2')}"
-						styleClass="gameButton #{ticTacToe.isWinnerButton('1', '2')}" /></td>
+						styleClass="gameButton #{ticTacToe.isWinnerButton('1', '2')}" 
+						rendered="#{ticTacToe.isNotDisabled('1', '2')}" />
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('1', '2') == 'X'}">
+							<ui:include src="x.svg" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('1', '2') == 'O'}">
+							<ui:include src="o.svg" />
+						</h:panelGroup>
+						</td>
 			</tr>
 			<tr>
-				<td><h:commandButton
-						disabled="#{ticTacToe.isDisabled('2', '0')}"
+				<td class="left bottom"><h:commandButton
 						value="#{ticTacToe.getFeldValue('2', '0')}"
 						action="#{ticTacToe.doAction('2', '0')}"
-						styleClass="gameButton #{ticTacToe.isWinnerButton('2', '0')}" /></td>
-				<td><h:commandButton
-						disabled="#{ticTacToe.isDisabled('2', '1')}"
+						styleClass="gameButton #{ticTacToe.isWinnerButton('2', '0')}" 
+						rendered="#{ticTacToe.isNotDisabled('2', '0')}" />
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('2', '0') == 'X'}">
+							<ui:include src="x.svg" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('2', '0') == 'O'}">
+							<ui:include src="o.svg" />
+						</h:panelGroup>
+						</td>
+				<td class="bottom"><h:commandButton
 						value="#{ticTacToe.getFeldValue('2', '1')}"
 						action="#{ticTacToe.doAction('2', '1')}"
-						styleClass="gameButton #{ticTacToe.isWinnerButton('2', '1')}" /></td>
-				<td><h:commandButton
-						disabled="#{ticTacToe.isDisabled('2', '2')}"
+						styleClass="gameButton #{ticTacToe.isWinnerButton('2', '1')}" 
+						rendered="#{ticTacToe.isNotDisabled('2', '1')}" />
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('2', '1') == 'X'}">
+							<ui:include src="x.svg" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('2', '1') == 'O'}">
+							<ui:include src="o.svg" />
+						</h:panelGroup>
+						</td>
+				<td class="right bottom"><h:commandButton
 						value="#{ticTacToe.getFeldValue('2', '2')}"
 						action="#{ticTacToe.doAction('2', '2')}"
-						styleClass="gameButton #{ticTacToe.isWinnerButton('2', '2')}" /></td>
+						styleClass="gameButton #{ticTacToe.isWinnerButton('2', '2')}" 
+						rendered="#{ticTacToe.isNotDisabled('2', '2')}" />
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('2', '2') == 'X'}">
+							<ui:include src="x.svg" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{ticTacToe.getFeldValue('2', '2') == 'O'}">
+							<ui:include src="o.svg" />
+						</h:panelGroup>
+						</td>
 			</tr>
 		</table>
 
