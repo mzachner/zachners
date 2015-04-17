@@ -80,7 +80,7 @@ public class TicTacToe implements Serializable {
 	}
 	
 	public boolean isNotDisabled(String x, String y) {
-		return isMyTurn() && !isSpielBeendet()
+		return isConnectionEstablished() && isMyTurn() && !isSpielBeendet()
 				&& getGameConnection().getSpielfeld()[Integer.valueOf(x)][Integer
 						.valueOf(y)] == null;
 	}

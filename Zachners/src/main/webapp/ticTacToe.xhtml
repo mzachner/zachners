@@ -60,14 +60,14 @@
 </h:head>
 <h:body>
 	<div>
-		<h:outputText value="#{ticTacToe.sessionId}" />
+		<h:outputText value="#{ticTacToe.sessionId}" style="display:none" />
 	</div>
 	<h3>Tic Tac Toe</h3>
 
 	<h:outputText value="Warte auf zweiten Spieler..."
 		rendered="#{!ticTacToe.connectionEstablished}"
 		styleClass="infoMessage" />
-	<h:outputText value="Ihr Zug bitte" 
+	<h:outputText value="Ihr Zug bitte..." 
 		rendered="#{ticTacToe.connectionEstablished and !ticTacToe.spielBeendet and ticTacToe.myTurn}"
 		styleClass="infoMessage" />
 	<h:outputText value="Sie haben gewonnen" rendered="#{ticTacToe.winner}"
@@ -200,64 +200,57 @@
 		</table>
 
 		<br />
-		<h:commandButton id="refreshButton" value="Refresh"
-			action="#{ticTacToe.doAction('refresh')}" />
 		<br />
 		<h:commandButton value="Abbrechen"
 			action="#{ticTacToe.doAction('abbruch')}" />
 		
 		<br />
-			
-		<h:commandButton id="refreshHiddenButton" value="Refresh" style="display:block" >
-			<f:ajax render="spielBeendet myTurn" />
+		
+		<h:commandButton id="refreshPageButton" value="Refresh"
+			action="#{ticTacToe.doAction('refresh')}" style="display:none" />
+		<h:commandButton id="refreshAjaxButton" value="Refresh" style="display:none" >
+			<f:ajax render="spielBeendet myTurn connectionEstablished" />
 		</h:commandButton>
-		<h:outputText id="spielBeendet" style="display:block" value="#{ticTacToe.spielBeendet}" />
-		<h:outputText id="myTurn" style="display:block" value="#{ticTacToe.myTurn}" />
+		<h:outputText id="spielBeendet" style="display:none" value="#{ticTacToe.spielBeendet}" />
+		<h:outputText id="myTurn" style="display:none" value="#{ticTacToe.myTurn}" />
+		<h:outputText id="connectionEstablished" style="display:none" value="#{ticTacToe.connectionEstablished}" />
 
 
-
+		<h:panelGroup rendered="#{!ticTacToe.spielBeendet}">
 			<script type="text/javascript">
 				//<![CDATA[
 				var myTurn = document.getElementById("myTurn").textContent;
+				var connectionEstablished = document.getElementById("connectionEstablished").textContent;
 				
 				setTimeout(function(){ pageRefreshRequired() }, 1000);
 				
 				function pageRefreshRequired() {
 					
-					document.getElementById("refreshHiddenButton").click();
-					var spielBeendetNeu = document.getElementById("spielBeendet").textContent;
+					document.getElementById("refreshAjaxButton").click();
+					var spielBeendet = document.getElementById("spielBeendet").textContent;
 					var myTurnNeu = document.getElementById("myTurn").textContent;
-					if (spielBeendetNeu == "false") {
-						if (myTurnNeu == "false") {
-							if (myTurn == myTurnNeu) {
+					var connectionEstablishedNeu = document.getElementById("connectionEstablished").textContent;
+					if (spielBeendet == "false") {
+							if (myTurn == myTurnNeu && connectionEstablished == connectionEstablishedNeu) {
 								setTimeout(function(){ pageRefreshRequired() }, 1000);
 							}
 							else  {
 								pageRefreshStarten();
 							}
-						}
-						else {
-							if (myTurn == myTurnNeu) {
-								setTimeout(function(){ pageRefreshRequired() }, 5000);
-							}
-							else  {
-								pageRefreshStarten();
-							}
-						}
 					}
 					else {
 						pageRefreshStarten();
 					}
+				}
+				
+				function pageRefreshStarten() {
 					
-					function pageRefreshStarten() {
-						
-						document.getElementById("refreshButton").click();
-					}
-
+					document.getElementById("refreshPageButton").click();
 				}
 				//]]>
 			</script>
-
+		</h:panelGroup>
+		
 	</h:form>
 
 </h:body>
