@@ -200,7 +200,7 @@
 		</table>
 
 		<br />
-		<h:commandButton value="Refresh"
+		<h:commandButton id="refreshButton" value="Refresh"
 			action="#{ticTacToe.doAction('refresh')}" />
 		<br />
 		<h:commandButton value="Abbrechen"
@@ -208,30 +208,56 @@
 		
 		<br />
 			
-		<h:commandButton id="refreshHiddenButton" value="Refresh" 	style="display:block" >
+		<h:commandButton id="refreshHiddenButton" value="Refresh" style="display:block" >
 			<f:ajax render="spielBeendet myTurn" />
 		</h:commandButton>
 		<h:outputText id="spielBeendet" style="display:block" value="#{ticTacToe.spielBeendet}" />
 		<h:outputText id="myTurn" style="display:block" value="#{ticTacToe.myTurn}" />
 
-		<!-- NOT MY TURN - Refresh -->
-		<h:panelGroup
-			rendered="#{!ticTacToe.spielBeendet and !ticTacToe.myTurn}">
+
+
 			<script type="text/javascript">
-			<!--
-				setTimeout(document.getElementById('refreshButton').click(), 1000)
-			//-->
+				//<![CDATA[
+				var myTurn = document.getElementById("myTurn").textContent;
+				
+				setTimeout(function(){ pageRefreshRequired() }, 1000);
+				
+				function pageRefreshRequired() {
+					
+					document.getElementById("refreshHiddenButton").click();
+					var spielBeendetNeu = document.getElementById("spielBeendet").textContent;
+					var myTurnNeu = document.getElementById("myTurn").textContent;
+					if (spielBeendetNeu == "false") {
+						if (myTurnNeu == "false") {
+							if (myTurn == myTurnNeu) {
+								setTimeout(function(){ pageRefreshRequired() }, 1000);
+							}
+							else  {
+								pageRefreshStarten();
+							}
+						}
+						else {
+							if (myTurn == myTurnNeu) {
+								setTimeout(function(){ pageRefreshRequired() }, 5000);
+							}
+							else  {
+								pageRefreshStarten();
+							}
+						}
+					}
+					else {
+						pageRefreshStarten();
+					}
+					
+					function pageRefreshStarten() {
+						
+						document.getElementById("refreshButton").click();
+					}
+
+				}
+				//]]>
 			</script>
-		</h:panelGroup>
-		<!-- MY TURN - Send alive -->
-		<h:panelGroup
-			rendered="#{!ticTacToe.spielBeendet and ticTacToe.myTurn}">
-			<script type="text/javascript">
-			<!--
-				setTimeout(document.getElementById('refreshButton').click(), 10000)
-			//-->
-			</script>
-		</h:panelGroup>
+
 	</h:form>
 
 </h:body>
