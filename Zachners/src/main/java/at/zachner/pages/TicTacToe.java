@@ -16,10 +16,17 @@ public class TicTacToe implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private GameConnection gC;
+	
+	private boolean oldMyTurn;
+	private boolean oldConnectionEstablished;
+	private boolean refreshPage;
 
 	private GameConnection getGameConnection() {
 		if (gC == null) {
 			gC = GameConnection.getConnection(this);
+			oldMyTurn = isMyTurn();
+			oldConnectionEstablished = isConnectionEstablished();
+			refreshPage = true;
 		}
 		return gC;
 	}
@@ -35,6 +42,7 @@ public class TicTacToe implements Serializable {
 		getGameConnection().setFeld(this, Integer.valueOf(x),
 				Integer.valueOf(y));
 		// gC.setToOtherSpieler(this);
+		oldMyTurn = isMyTurn();
 		return "";
 	}
 
@@ -87,6 +95,22 @@ public class TicTacToe implements Serializable {
 	
 	public boolean isWinnerButton(String x, String y) {
 		return getGameConnection().isWinnerKoordinate(x, y);
+	}
+	
+	public void pageRefresh() {
+		refreshPage = false;
+	}
+	
+	public boolean isRefreshPageRequired() {
+		if (!refreshPage) {
+			if (isSpielBeendet() == false && isMyTurn() == oldMyTurn && isConnectionEstablished() == oldConnectionEstablished) {
+				return refreshPage;
+			}
+			oldMyTurn = isMyTurn();
+			oldConnectionEstablished = isConnectionEstablished();
+			refreshPage = true;
+		}
+		return refreshPage;
 	}
 
 }

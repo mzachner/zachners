@@ -8,9 +8,6 @@
 
 <h:head>
 	<title>Tic Tac Toe</title>
-	<h:panelGroup rendered="false">
-		<meta http-equiv="refresh" content="1" />
-	</h:panelGroup>
 	<style type="text/css">
 .infoMessage {
 	font-family: arial;
@@ -59,6 +56,9 @@
 </style>
 </h:head>
 <h:body>
+	<h:panelGroup id="completePage">
+	#{ticTacToe.pageRefresh()}
+
 	<div>
 		<h:outputText value="#{ticTacToe.sessionId}" style="display:none" />
 	</div>
@@ -207,7 +207,9 @@
 		<br />
 		
 		<h:commandButton id="refreshPageButton" value="Refresh"
-			action="#{ticTacToe.doAction('refresh')}" style="display:none" />
+			 style="display:none" >
+			<f:ajax render="completePage" />
+		</h:commandButton>
 		<h:commandButton id="refreshAjaxButton" value="Refresh" style="display:none" >
 			<f:ajax render="spielBeendet myTurn connectionEstablished" />
 		</h:commandButton>
@@ -215,36 +217,38 @@
 		<h:outputText id="myTurn" style="display:none" value="#{ticTacToe.myTurn}" />
 		<h:outputText id="connectionEstablished" style="display:none" value="#{ticTacToe.connectionEstablished}" />
 
+		<button type="button" style="display:none" onclick="loadXMLDoc()">Change Content</button>
 
 		<h:panelGroup rendered="#{!ticTacToe.spielBeendet}">
 			<script type="text/javascript">
 				//<![CDATA[
-				var myTurn = document.getElementById("myTurn").textContent;
-				var connectionEstablished = document.getElementById("connectionEstablished").textContent;
 				
-				setTimeout(function(){ pageRefreshRequired() }, 1000);
+				setTimeout(function(){ loadXMLDoc() }, 1000);
 				
-				function pageRefreshRequired() {
-					
-					document.getElementById("refreshAjaxButton").click();
-					var spielBeendet = document.getElementById("spielBeendet").textContent;
-					var myTurnNeu = document.getElementById("myTurn").textContent;
-					var connectionEstablishedNeu = document.getElementById("connectionEstablished").textContent;
-					if (spielBeendet == "false") {
-							if (myTurn == myTurnNeu && connectionEstablished == connectionEstablishedNeu) {
-								setTimeout(function(){ pageRefreshRequired() }, 1000);
-							}
-							else  {
-								pageRefreshStarten();
-							}
+				function loadXMLDoc() {
+					var xmlhttp;
+					xmlhttp=new XMLHttpRequest();
+					xmlhttp.onreadystatechange=function() {
+					  if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+					  	var xmlDoc = xmlhttp.responseXML;
+					  	var responseText = xmlDoc.getElementById("refreshPageRequired").textContent;
+					    if (responseText == "true") {
+					    	pageRefreshStarten();
+					    }
+					    else {
+					    	setTimeout(function(){ loadXMLDoc() }, 1000);
+					    }
+					  }
+					  else {
+					    //TODO Fehlerbehandlung
+					  }
 					}
-					else {
-						pageRefreshStarten();
-					}
+					xmlhttp.open("GET","ajaxTicTacToeTrigger.xhtml",true);
+					xmlhttp.responseType = "document";
+					xmlhttp.send();
 				}
 				
 				function pageRefreshStarten() {
-					
 					document.getElementById("refreshPageButton").click();
 				}
 				//]]>
@@ -252,6 +256,6 @@
 		</h:panelGroup>
 		
 	</h:form>
-
+	</h:panelGroup>
 </h:body>
 </html>
