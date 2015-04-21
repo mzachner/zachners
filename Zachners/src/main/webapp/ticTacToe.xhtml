@@ -63,6 +63,13 @@
 		<h:outputText value="#{ticTacToe.sessionId}" style="display:none" />
 	</div>
 	<h3>Tic Tac Toe</h3>
+	
+	<h:outputText value="TODO: Der eigene Spieler spielt immer Grün daher ist X nicht immer grün und Kreis nicht immer rot!" />
+	<h:outputText value="TODO: Woher kommen die Fehlermeldungen am Anfang ganz unten?" />
+	<h:outputText value="TODO: Neues Spiel starten." />
+	<h:outputText value="TODO: Spiel mit Passwort" />
+	<h:outputText value="TODO: Im InternetExplorer gehts nicht wegen Caching glaub ich. Ajax Seite wird nicht neu geladen." />
+	<h:outputText value="TODO: " />
 
 	<h:outputText value="Warte auf zweiten Spieler..."
 		rendered="#{!ticTacToe.connectionEstablished}"
@@ -206,19 +213,10 @@
 		
 		<br />
 		
-		<h:commandButton id="refreshPageButton" value="Refresh"
-			 style="display:none" >
+		<h:commandButton id="refreshPageButton" value="Refresh" style="display:none" >
 			<f:ajax render="completePage" />
 		</h:commandButton>
-		<h:commandButton id="refreshAjaxButton" value="Refresh" style="display:none" >
-			<f:ajax render="spielBeendet myTurn connectionEstablished" />
-		</h:commandButton>
-		<h:outputText id="spielBeendet" style="display:none" value="#{ticTacToe.spielBeendet}" />
-		<h:outputText id="myTurn" style="display:none" value="#{ticTacToe.myTurn}" />
-		<h:outputText id="connectionEstablished" style="display:none" value="#{ticTacToe.connectionEstablished}" />
-
-		<button type="button" style="display:none" onclick="loadXMLDoc()">Change Content</button>
-
+		
 		<h:panelGroup rendered="#{!ticTacToe.spielBeendet}">
 			<script type="text/javascript">
 				//<![CDATA[
