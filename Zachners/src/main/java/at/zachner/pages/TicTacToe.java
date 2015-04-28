@@ -11,7 +11,7 @@ import at.zachner.service.tictactoe.GameConnection;
 
 @ManagedBean
 @SessionScoped
-public class TicTacToe implements Serializable {
+public class TicTacToe extends Page implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -23,6 +23,25 @@ public class TicTacToe implements Serializable {
 	private boolean oldMyTurn;
 	private boolean oldConnectionEstablished;
 	private boolean refreshPage;
+	
+	public void pageRefresh() {
+		refreshPage = false;
+		if (isFirstTimeOnPage()) {
+			gC = null;
+		}
+	}
+	
+	public boolean isRefreshPageRequired() {
+		if (!refreshPage) {
+			if (isSpielBeendet() == false && isMyTurn() == oldMyTurn && isConnectionEstablished() == oldConnectionEstablished) {
+				return refreshPage;
+			}
+			oldMyTurn = isMyTurn();
+			oldConnectionEstablished = isConnectionEstablished();
+			refreshPage = true;
+		}
+		return refreshPage;
+	}
 
 	private GameConnection getGameConnection() {
 		if (gC == null) {
@@ -53,9 +72,6 @@ public class TicTacToe implements Serializable {
 		if (action.equals("abbruch")) {
 			gC = null;
 			return "hauptmenu?faces-redirect=true";
-		}
-		if (action.equals("refresh")) {
-			return "";
 		}
 		return "";
 	}
@@ -118,20 +134,6 @@ public class TicTacToe implements Serializable {
 		return getGameConnection().isWinnerKoordinate(x, y);
 	}
 	
-	public void pageRefresh() {
-		refreshPage = false;
-	}
-	
-	public boolean isRefreshPageRequired() {
-		if (!refreshPage) {
-			if (isSpielBeendet() == false && isMyTurn() == oldMyTurn && isConnectionEstablished() == oldConnectionEstablished) {
-				return refreshPage;
-			}
-			oldMyTurn = isMyTurn();
-			oldConnectionEstablished = isConnectionEstablished();
-			refreshPage = true;
-		}
-		return refreshPage;
-	}
+
 
 }
