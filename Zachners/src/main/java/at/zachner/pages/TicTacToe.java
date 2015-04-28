@@ -14,6 +14,9 @@ import at.zachner.service.tictactoe.GameConnection;
 public class TicTacToe implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final String GREEN = "rgb(0,200,0)";
+	private static final String RED = "rgb(255,0,0)";
 
 	private GameConnection gC;
 	
@@ -79,6 +82,24 @@ public class TicTacToe implements Serializable {
 
 	public boolean isConnectionEstablished() {
 		return getGameConnection().isConnectionEstablished();
+	}
+	
+	public String getXColor() {
+		if (getGameConnection().isXPlayer(this)) {
+			return GREEN;
+		}
+		else {
+			return RED;
+		}
+	}
+	
+	public String getOColor() {
+		if (getGameConnection().isXPlayer(this)) {
+			return RED;
+		}
+		else {
+			return GREEN;
+		}
 	}
 
 	public String getFeldValue(String x, String y) {

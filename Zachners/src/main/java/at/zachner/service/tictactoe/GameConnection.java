@@ -194,4 +194,13 @@ public class GameConnection implements Serializable {
 		return false;
 	}
 
+	public boolean isXPlayer(TicTacToe player) {
+		if (player == playerX) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 }
