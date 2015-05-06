@@ -16,12 +16,15 @@ public class GameConnection implements Serializable {
 
 	private TicTacToe playerX;
 	private TicTacToe playerO;
+	private int playerXLiveCounter;
+	private int playerOLiveCounter;
 	private boolean connectionEstablished;
 	private TicTacToe aktuellerSpieler;
 	private boolean spielBeendet;
+	private boolean onePlayerNotAktiv;
 	private TicTacToe playerGewinner;
-	private int[][] gewinnerKoordinaten = new int[3][2];
 	private Value[][] spielfeld = new Value[3][3];
+	private boolean[][] gewinnerSpielfeld = new boolean[3][3];
 
 	public static synchronized GameConnection getConnection(TicTacToe player) {
 		if (gC == null) {
@@ -38,6 +41,27 @@ public class GameConnection implements Serializable {
 			return gCKomplett;
 		} else {
 			return gC;
+		}
+	}
+	
+	public synchronized void doCheckOtherPlayerAktiv(TicTacToe player) {
+		if (connectionEstablished) {
+			if (player == playerX) {
+				playerOLiveCounter = 0;
+				playerXLiveCounter++;
+				if (playerXLiveCounter > 3) {
+					onePlayerNotAktiv = true;
+					spielBeendet = true;
+				}
+			}
+			else {
+				playerXLiveCounter = 0;
+				playerOLiveCounter++;
+				if (playerOLiveCounter > 3) {
+					onePlayerNotAktiv = true;
+					spielBeendet = true;
+				}
+			}
 		}
 	}
 
@@ -74,7 +98,11 @@ public class GameConnection implements Serializable {
 	}
 
 	public synchronized boolean isUnentschieden() {
-		return spielBeendet && playerGewinner == null;
+		return spielBeendet && !onePlayerNotAktiv && playerGewinner == null;
+	}
+	
+	public synchronized boolean isOnePlayerNotAktiv() {
+		return onePlayerNotAktiv;
 	}
 
 	private synchronized void spielAuswerten(TicTacToe player) {
@@ -90,46 +118,34 @@ public class GameConnection implements Serializable {
 			if (isSpalteGleich(i, value)) {
 				spielBeendet = true;
 				playerGewinner = player;
-				gewinnerKoordinaten[0][0] = 0;
-				gewinnerKoordinaten[0][1] = i;
-				gewinnerKoordinaten[1][0] = 1;
-				gewinnerKoordinaten[1][1] = i;
-				gewinnerKoordinaten[2][0] = 2;
-				gewinnerKoordinaten[2][1] = i;
+				gewinnerSpielfeld[0][i] = true;
+				gewinnerSpielfeld[1][i] = true;
+				gewinnerSpielfeld[2][i] = true;
 				return;
 			}
 			if (isZeileGleich(i, value)) {
 				spielBeendet = true;
 				playerGewinner = player;
-				gewinnerKoordinaten[0][0] = i;
-				gewinnerKoordinaten[0][1] = 0;
-				gewinnerKoordinaten[1][0] = i;
-				gewinnerKoordinaten[1][1] = 1;
-				gewinnerKoordinaten[2][0] = i;
-				gewinnerKoordinaten[2][1] = 2;
+				gewinnerSpielfeld[i][0] = true;
+				gewinnerSpielfeld[i][1] = true;
+				gewinnerSpielfeld[i][2] = true;
 				return;
 			}
 		}
 		if (isDiagonaleLoNachRuGleich(value)) {
 			spielBeendet = true;
 			playerGewinner = player;
-			gewinnerKoordinaten[0][0] = 0;
-			gewinnerKoordinaten[0][1] = 0;
-			gewinnerKoordinaten[1][0] = 1;
-			gewinnerKoordinaten[1][1] = 1;
-			gewinnerKoordinaten[2][0] = 2;
-			gewinnerKoordinaten[2][1] = 2;
+			gewinnerSpielfeld[0][0] = true;
+			gewinnerSpielfeld[1][1] = true;
+			gewinnerSpielfeld[2][2] = true;
 			return;
 		}
 		if (isDiagonaleLuNachRoGleich(value)) {
 			spielBeendet = true;
 			playerGewinner = player;
-			gewinnerKoordinaten[0][0] = 2;
-			gewinnerKoordinaten[0][1] = 0;
-			gewinnerKoordinaten[1][0] = 1;
-			gewinnerKoordinaten[1][1] = 1;
-			gewinnerKoordinaten[2][0] = 0;
-			gewinnerKoordinaten[2][1] = 2;
+			gewinnerSpielfeld[2][0] = true;
+			gewinnerSpielfeld[1][1] = true;
+			gewinnerSpielfeld[0][2] = true;
 			return;
 		}
 
@@ -189,17 +205,28 @@ public class GameConnection implements Serializable {
 		}
 	}
 
-	public boolean isWinnerKoordinate(String x, String y) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isWinnerKoordinate(int x, int y) {
+		if (!isSpielBeendet()) {
+			return false;
+		}
+		return gewinnerSpielfeld[x][y];
 	}
 
-	public boolean isXPlayer(TicTacToe player) {
+	public synchronized boolean isXPlayer(TicTacToe player) {
 		if (player == playerX) {
 			return true;
 		}
 		else {
 			return false;
+		}
+	}
+	
+	public synchronized String getNameOfOtherPlayer(TicTacToe player) {
+		if (player == playerX) {
+			return playerO.getSdh().getAktuellerUser();
+		}
+		else {
+			return playerX.getSdh().getAktuellerUser();
 		}
 	}
 

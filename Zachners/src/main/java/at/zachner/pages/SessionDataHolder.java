@@ -12,6 +12,7 @@ public class SessionDataHolder implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String aktuelleSeite;
+	private String aktuellerUser;
 
 	public String getAktuelleSeite() {
 		return aktuelleSeite;
@@ -19,5 +20,13 @@ public class SessionDataHolder implements Serializable {
 
 	public void setAktuelleSeite(String aktuelleSeite) {
 		this.aktuelleSeite = aktuelleSeite;
+	}
+
+	public synchronized String getAktuellerUser() {
+		return aktuellerUser;
+	}
+
+	public void setAktuellerUser(String aktuellerUser) {
+		this.aktuellerUser = aktuellerUser;
 	}
 }

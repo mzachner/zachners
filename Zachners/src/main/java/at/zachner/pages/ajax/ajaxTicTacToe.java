@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import at.zachner.pages.TicTacToe;
 
+//Dieser AjaxCall funktioniert beim InternetExplorer nicht.
+
 @WebServlet(name="ajaxTicTacToe", urlPatterns={"/ajaxTicTacToe"})
 public class ajaxTicTacToe extends javax.servlet.http.HttpServlet {
 
@@ -28,7 +30,7 @@ public class ajaxTicTacToe extends javax.servlet.http.HttpServlet {
 		  if (obj instanceof TicTacToe) {
 			  TicTacToe ticTacToe = (TicTacToe) obj;
 			  PrintWriter out = response.getWriter();
-		      out.print(ticTacToe.isRefreshPageRequired());
+			  out.print(ticTacToe.isRefreshPageRequired());
 		  }
 		  else {
 			  //TODO Fehlerbehandlung

@@ -18,5 +18,13 @@ public class Hauptmenu extends Page implements Serializable  {
 		}
 		return "";
 	}
+	
+	public String getAktuellerUser() {
+		return getSdh().getAktuellerUser();
+	}
+
+	public void setAktuellerUser(String aktuellerUser) {
+		getSdh().setAktuellerUser(aktuellerUser);
+	}
 
 }

@@ -12,29 +12,37 @@
     <meta http-equiv="expires" content="0"/>
     <meta http-equiv="Pragma" content="no-cache"/>
     
-	<title>Hauptmenu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+	<title>Zachner-Games</title>
+	<style type="text/css">
+	#line {
+		height: 5px;
+		background: #FAAC58;	
+		margin-bottom: 20px;
+		width: 100%;
+	}
+	</style>
 </h:head>
 <h:body>
-	
-	<h3>Hauptmenu</h3>
+	<div>
+		<table style="width: 100%">
+			<tr>
+				<td><h3 style="display:inline">Zachner-Games</h3></td>
+				<td style="text-align: right;"></td>
+			</tr>
+		</table>
+		<div id="line"></div>
+	</div>
 	<h:form>
+
 		
-		<h:commandButton value="Hello" action="hello?faces-redirect=true"></h:commandButton>
-		
-		<br />
-		<br />
-		
-		<h:commandButton value="Lebenlauf Roman" action="lebenslaufView?faces-redirect=true" />
+		<div>Ihr Name:</div>
+		<h:inputText value="#{hauptmenu.aktuellerUser}" />
 		
 		<br />
 		<br />
-		
-		<h:commandButton value="Tic Tac Toe" action="#{hauptmenu.doAction('TicTacToe')}" />
-		
-		<br />
-		<br />
-		
-		<h:commandButton value="Personen" action="personen?faces-redirect=true" />
+		<h:commandButton style="height:40px; width:100%" value="Tic Tac Toe" action="#{hauptmenu.doAction('TicTacToe')}" />
+
 	</h:form>
 </h:body>
 </html>

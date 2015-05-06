@@ -33,6 +33,7 @@ public class TicTacToe extends Page implements Serializable {
 	
 	public boolean isRefreshPageRequired() {
 		if (!refreshPage) {
+			getGameConnection().doCheckOtherPlayerAktiv(this);
 			if (isSpielBeendet() == false && isMyTurn() == oldMyTurn && isConnectionEstablished() == oldConnectionEstablished) {
 				return refreshPage;
 			}
@@ -42,6 +43,7 @@ public class TicTacToe extends Page implements Serializable {
 		}
 		return refreshPage;
 	}
+
 
 	private GameConnection getGameConnection() {
 		if (gC == null) {
@@ -73,6 +75,10 @@ public class TicTacToe extends Page implements Serializable {
 			gC = null;
 			return "hauptmenu?faces-redirect=true";
 		}
+		else if (action.equals("neuesSpiel")) {
+			gC = null;
+			return "ticTacToe?faces-redirect=true";
+		}
 		return "";
 	}
 
@@ -94,6 +100,10 @@ public class TicTacToe extends Page implements Serializable {
 
 	public boolean isUnentschieden() {
 		return getGameConnection().isUnentschieden();
+	}
+	
+	public boolean isOnePlayerNotAktiv() {
+		return getGameConnection().isOnePlayerNotAktiv();
 	}
 
 	public boolean isConnectionEstablished() {
@@ -130,10 +140,18 @@ public class TicTacToe extends Page implements Serializable {
 						.valueOf(y)] == null;
 	}
 	
-	public boolean isWinnerButton(String x, String y) {
-		return getGameConnection().isWinnerKoordinate(x, y);
+	public String isWinnerField(String x, String y) {
+		return getGameConnection().isWinnerKoordinate(Integer.valueOf(x), Integer.valueOf(y)) ? "winnerField" : "";
 	}
 	
-
+	public String getNameOfOtherPlayer() {
+		String ret = getGameConnection().getNameOfOtherPlayer(this);
+		if (ret == null || ret.isEmpty()) {
+			return "unknown";
+		}
+		else {
+			return ret;
+		}
+	}
 
 }
