@@ -9,10 +9,11 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class AnyPageFilter implements Filter {
-
+public class InvalidSessionFilter implements Filter {
+	
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
@@ -24,15 +25,21 @@ public class AnyPageFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 
 		HttpServletRequest req = (HttpServletRequest) request;
+				
+		if (req.isRequestedSessionIdValid()) {
+			chain.doFilter(request, response);
+			return;
+		}
 		
-		String requestedSessionId = req.getRequestedSessionId();
+		req.getSession();
 		
-		boolean valid = req.isRequestedSessionIdValid();
+		if (req.getRequestURI().equals(req.getContextPath() + "/hauptmenu.xhtml")) {
+			chain.doFilter(request, response);
+			return;
+		}
 		
-		HttpSession session = req.getSession();
-		
-		String sessionId = session.getId();
-		chain.doFilter(request, response);
+		HttpServletResponse httpResponse = (HttpServletResponse) response;
+		httpResponse.sendRedirect(req.getContextPath() + "/hauptmenu.xhtml");
 		
 	}
 

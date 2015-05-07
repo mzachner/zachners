@@ -21,11 +21,11 @@
 		<welcome-file>hauptmenu.xhtml</welcome-file>
 	</welcome-file-list>
 	<filter>
-		<filter-name>AnyPageFilter</filter-name>
-		<filter-class>at.zachner.filter.AnyPageFilter</filter-class>
+		<filter-name>InvalidSessionFilter</filter-name>
+		<filter-class>at.zachner.filter.InvalidSessionFilter</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>AnyPageFilter</filter-name>
+		<filter-name>InvalidSessionFilter</filter-name>
 		<servlet-name>Faces Servlet</servlet-name>
 	</filter-mapping>
 </web-app>
