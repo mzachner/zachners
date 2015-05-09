@@ -9,10 +9,3 @@ Oder noch besesr Wildfly 8.2.0. Dazu folgende Anleitung.
 http://www.mastertheboss.com/jboss-server/wildfly-8/configuring-eclipse-to-use-wildfly-8
 Die Anleitung weicht ein wenig ab.
 
-
-TODO:
-AJAX
-Aufräumen
-Refresh button weg
-New Game button
-Gewinn mit gelbem Hintergrund anzeigen

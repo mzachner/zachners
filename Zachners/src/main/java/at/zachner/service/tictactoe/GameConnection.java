@@ -31,6 +31,7 @@ public class GameConnection implements Serializable {
 			gC = new GameConnection();
 			gC.playerX = player;
 			gC.aktuellerSpieler = player;
+			gC.doStartPlayerAktivThread();
 			return gC;
 		}
 		if (player != gC.playerX) {
@@ -44,25 +45,57 @@ public class GameConnection implements Serializable {
 		}
 	}
 	
-	public synchronized void doCheckOtherPlayerAktiv(TicTacToe player) {
-		if (connectionEstablished) {
-			if (player == playerX) {
-				playerOLiveCounter = 0;
-				playerXLiveCounter++;
-				if (playerXLiveCounter > 3) {
-					onePlayerNotAktiv = true;
-					spielBeendet = true;
+	private synchronized void doStartPlayerAktivThread() {
+		Runnable r = new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					
+					do {
+						Thread.sleep(1000);
+					} while (doCheckPlayersAktivThread());
+					
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
-			else {
-				playerXLiveCounter = 0;
-				playerOLiveCounter++;
-				if (playerOLiveCounter > 3) {
-					onePlayerNotAktiv = true;
-					spielBeendet = true;
-				}
+			
+		};
+		Thread t = new Thread(r);
+		t.start();
+	}
+	
+	public synchronized boolean doCheckPlayersAktivThread() {
+		if (!connectionEstablished) {
+			playerXLiveCounter++;
+			if (playerXLiveCounter > 10) {
+				gC = null;
+				return false;
 			}
 		}
+		else {
+			playerXLiveCounter++;
+			playerOLiveCounter++;
+			if (playerXLiveCounter > 10 || playerOLiveCounter > 10) {
+				onePlayerNotAktiv = true;
+				spielBeendet = true;
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public synchronized void doCheckOtherPlayerAktiv(TicTacToe player) {
+//		if (connectionEstablished) {
+			if (player == playerX) {
+				playerXLiveCounter = 0;
+			}
+			else {
+				playerOLiveCounter = 0;
+			}
+//		}
 	}
 
 	public synchronized boolean isConnectionEstablished() {
