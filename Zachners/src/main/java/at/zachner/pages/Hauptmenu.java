@@ -28,6 +28,9 @@ public class Hauptmenu extends Page implements Serializable  {
 			initPage(); //Wenn der Zurückbutton verwendet wurde, dann wird hiermit das Hauptmenu als aktuelle Seite gesetzt.
 			return "ticTacToe?faces-redirect=true";
 		}
+		if (action.equals("impressum")) {
+			return "impressum?faces-redirect=true";
+		}
 		return "";
 	}
 	

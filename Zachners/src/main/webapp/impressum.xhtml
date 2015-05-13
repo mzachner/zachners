@@ -5,7 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-	#{hauptmenu.initPage()}
+	#{impressum.initPage()}
 
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
@@ -21,27 +21,26 @@
 		margin-bottom: 20px;
 		width: 100%;
 	}
-	.impressum:link {
+	.xingLink:link {
 	    color: gray;
     	background-color:transparent;
-    	text-decoration:none;
+    	text-decoration:underline;
 	}
-	.impressum:visited  {
+	.xingLink:visited  {
 		color: gray;
     	background-color:transparent;
+    	text-decoration:underline;
+	}
+	.xingLink:hover {
+		color: #FAAC58;
+    	background-color:transparent;
     	text-decoration:none;
 	}
-	.impressum:hover {
+	.xingLink:active {
 		color: #FAAC58;
     	background-color:transparent;
-    	text-decoration:underline;
+    	text-decoration:none;
 	}
-	.impressum:active {
-		color: #FAAC58;
-    	background-color:transparent;
-    	text-decoration:underline;
-	}
-	
 	</style>
 </h:head>
 <h:body>
@@ -49,27 +48,22 @@
 		<table style="width: 100%">
 			<tr>
 				<td><h3 style="display:inline">Zachner-Games</h3></td>
-				<td style="text-align: right;"></td>
+				<td style="text-align: right;">Impressum</td>
 			</tr>
 		</table>
 		<div id="line"></div>
 	</div>
 	<h:form>
 
-		
-		<div>Ihr Name:</div>
-		<h:inputText value="#{hauptmenu.aktuellerUser}" />
+		<h:outputLink styleClass="xingLink" value="https://www.xing.com/profile/Martin_Zachner">Martin Zachner</h:outputLink>
+		<div>Sonnwendgasse 24</div>
+		<div>2201 Gerasdorf</div>
+		<div>Austria</div>
 		
 		<br />
 		<br />
-		<h:commandButton style="height:40px; width:100%" value="Tic Tac Toe" action="#{hauptmenu.doAction('TicTacToe')}" />
+		<h:commandButton style="height:40px; width:100%" value="Zurück" action="#{impressum.doAction('zurueck')}" />
 		
-		<div style="position: absolute; bottom: 0;">
-			<h:commandLink styleClass="impressum" style="font-size: 0.9em;" value="Impressum" action="#{hauptmenu.doAction('impressum')}" />
-			<br />
-			<br />
-		</div>
 	</h:form>
-	
 </h:body>
 </html>
